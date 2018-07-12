@@ -1,0 +1,59 @@
+service:
+  name: lambda-edge-resize
+
+# Add the serverless-webpack plugin
+plugins:
+- serverless-webpack
+
+provider:
+  name: aws
+  region: us-east-1 # Lambda@Edge restriction
+  runtime: nodejs8.10
+  role: LambdaEdgeRole
+
+custom:
+  stage: "${opt:stage, self:provider.stage}"
+
+functions:
+  OriginResponse:
+    handler: handler.originResponse
+
+resources:
+  Resources:
+    LambdaEdgeRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+              - edgelambda.amazonaws.com
+            Action:
+            - sts:AssumeRole
+        Policies:
+        - PolicyName: "${self:custom.stage}-serverless-lambdaedge"
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              Resource: 'arn:aws:logs:*:*:*'
+            - Effect: "Allow"
+              Action:
+              - "s3:PutObject"
+              Resource:
+                Fn::Join:
+                - ""
+                - - "arn:aws:s3:::"
+                  - Ref: "ServerlessDeploymentBucket"
+            # functionality
+            - Effect: "Allow"
+              Action:
+              - "s3:GetObject"
+              Resource:
+              - "arn:aws:s3:::*"
