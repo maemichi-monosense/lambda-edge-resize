@@ -1,3 +1,3 @@
 variable "aws_account_id" {
-  default = "308943980996"
+  default = "344384897107" # yuya-maemichi
 }
