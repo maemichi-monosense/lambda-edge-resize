@@ -18,9 +18,9 @@ resource "aws_cloudfront_distribution" "image" {
     allowed_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods  = ["GET", "HEAD"]
 
-    min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
+    min_ttl     = 60
+    default_ttl = 60
+    max_ttl     = 60
 
     forwarded_values {
       query_string = true
