@@ -8,7 +8,9 @@ cd resizer
 sls deploy
 
 cd ..
-terraform plan -out=.terraform/plan -var-file=lambda.json
+
+cd infra
+terraform plan -out=.terraform/plan -var-file=../lambda.json
 terraform apply .terraform/plan
 ```
 

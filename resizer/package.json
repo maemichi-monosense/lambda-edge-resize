@@ -5,7 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "sls deploy && cd .. && terraform apply -var-file=lambda.json"
+    "deploy": "sls deploy && cd ../infra && terraform apply -var-file=../lambda.json"
   },
   "dependencies": {
     "sharp": "^0.20.5",
