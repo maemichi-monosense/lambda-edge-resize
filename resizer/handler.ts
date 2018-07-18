@@ -55,12 +55,15 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
     }
 
     const {width, height, webp} = parseQuery(request.querystring);
+    console.log({width, height, webp});
 
     /**
      * @see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/RequestAndResponseBehaviorCustomOrigin.html#request-custom-headers-behavior
      * @see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-event-structure.html#lambda-event-structure-request
      */
     const hostname = request.headers.host[0].value;
+    console.log({hostname, uri, headers: request.headers});
+
     const s3 = new S3();
     s3.getObject({
         Bucket: hostname,
@@ -79,7 +82,8 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
             // response any error
             result.status = '403';
             result.headers['content-type'] = [{key: 'Content-Type', value: 'text/plain'}];
-            result.body = e.message;
+            result.body = e.toString();
+            console.error(e);
             cb(null, result);
         });
 };
