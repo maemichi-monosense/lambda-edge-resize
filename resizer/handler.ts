@@ -79,6 +79,9 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
             const encoding = 'base64';
             result.body = buffer.toString(encoding);
             result.bodyEncoding = encoding;
+            if (query.webp) {
+                result.headers['content-type'] = [{key: 'Content-Type', value: 'image/webp'}];
+            }
             cb(null, result);
         })
         .catch(e => {
