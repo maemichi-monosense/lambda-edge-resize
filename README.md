@@ -11,3 +11,9 @@ cd ..
 terraform plan -out=.terraform/plan -var-file=lambda.json
 terraform apply .terraform/plan
 ```
+
+or
+```shell
+cd resizer
+yarn deploy
+```
