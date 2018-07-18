@@ -30,7 +30,7 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
     const uri = request.uri;
 
     // guard: check extension
-    const ext = uri.split('.', 2)[1];
+    const ext = uri.split('.').pop();
     if (!ext.match(/jpe?g/)) {
         // response original
         cb(null, response);
