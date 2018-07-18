@@ -13,6 +13,8 @@ provider:
 
 custom:
   stage: "${opt:stage, self:provider.stage}"
+  webpack:
+    packager: yarn
 
 functions:
   OriginResponse:
