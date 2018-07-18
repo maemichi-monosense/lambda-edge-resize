@@ -23,6 +23,7 @@ interface Query {
 const resultResponse = (response: CloudFrontResponse): CloudFrontResultResponse =>
     response;
 
+// noinspection JSUnusedGlobalSymbols
 export const originResponse: Handler = (event: CloudFrontResponseEvent, context: Context, cb: Callback) => {
     const {request, response} = event.Records[0].cf;
     const result = resultResponse(response);
