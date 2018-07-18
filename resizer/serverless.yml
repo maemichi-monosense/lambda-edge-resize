@@ -12,6 +12,7 @@ provider:
   region: us-east-1 # Lambda@Edge restriction
   runtime: nodejs8.10
   role: LambdaEdgeRole
+  logRetentionInDays: 14
 
 custom:
   stage: "${opt:stage, self:provider.stage}"
