@@ -19,3 +19,7 @@ or
 cd resizer
 yarn deploy
 ```
+
+## Dependency
+- `resizer`: stand alone
+- `infra`: depends on `resizer`
