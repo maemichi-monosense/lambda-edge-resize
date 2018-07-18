@@ -22,6 +22,11 @@ resource "aws_cloudfront_distribution" "image" {
     default_ttl = 60
     max_ttl     = 60
 
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = "${var.OriginResponseLambdaFunctionQualifiedArn}"
+    }
+
     forwarded_values {
       query_string = true
 
@@ -29,6 +34,7 @@ resource "aws_cloudfront_distribution" "image" {
         forward = "none"
       }
     }
+
     viewer_protocol_policy = "allow-all"
   }
 
