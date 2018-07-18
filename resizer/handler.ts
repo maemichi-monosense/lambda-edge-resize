@@ -11,7 +11,7 @@ import {
 import * as querystring from "querystring";
 import { isArray } from "util";
 
-import { Query, resize } from "./resize";
+import { Query, resize } from "./lib/resize";
 
 // 型合わせ
 const resultResponse = (response: CloudFrontResponse): CloudFrontResultResponse =>
