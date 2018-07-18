@@ -55,8 +55,8 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
             return;
     }
 
-    const {width, height, webp} = parseQuery(request.querystring);
-    console.log({width, height, webp});
+    const query = parseQuery(request.querystring);
+    console.log(query);
 
     /**
      * @see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/RequestAndResponseBehaviorCustomOrigin.html#request-custom-headers-behavior
@@ -73,7 +73,7 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
         Key: key, // remove first `/`
     }).promise()
         .then(data => data.Body)
-        .then(buffer => resize({width, height, webp})(buffer))
+        .then(buffer => resize(query)(buffer))
         .then(buffer => {
             // response resized image
             const encoding = 'base64';
