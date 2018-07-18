@@ -1,4 +1,4 @@
-import sharp from 'sharp';
+import * as sharp from 'sharp';
 
 type Data = Buffer | any; // 型合わせ
 type Resize = (width: number, height: number, webp?: boolean)

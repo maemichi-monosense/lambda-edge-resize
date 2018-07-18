@@ -67,7 +67,7 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
         Key: uri.slice(1), // remove first `/`
     }).promise()
         .then(data => data.Body)
-        .then(buffer => resize(width, height)(buffer))
+        .then(buffer => resize(width, height, webp)(buffer))
         .then(buffer => {
             // response resized image
             const encoding = 'base64';
