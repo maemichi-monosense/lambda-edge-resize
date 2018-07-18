@@ -23,8 +23,8 @@ export const resize: Resize = ({width, height, webp}) => async data => {
     image.rotate(); // before removing metadata
 
     // resize
-    const w = Math.min(metadata.width, width);
-    const h = Math.min(metadata.height, height);
+    const w = min(metadata.width, width);
+    const h = min(metadata.height, height);
     image.resize(w, h).max();
 
     // convert
@@ -34,3 +34,7 @@ export const resize: Resize = ({width, height, webp}) => async data => {
 
     return image.toBuffer();
 };
+
+// return null if null
+const min = (defaultNum: number, n?: number) =>
+    n && Math.min(n, defaultNum);
