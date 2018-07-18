@@ -3,7 +3,8 @@ service:
 
 # Add the serverless-webpack plugin
 plugins:
-- serverless-webpack
+  - serverless-webpack
+  - serverless-stack-output
 
 provider:
   name: aws
@@ -18,6 +19,10 @@ custom:
     includeModules:
       forceInclude:
         - sharp # for native Node.js Add-on
+  # stack output plugin
+  output:
+    handler: scripts/output.handler
+    file: ../lambda.json
 
 functions:
   OriginResponse:
