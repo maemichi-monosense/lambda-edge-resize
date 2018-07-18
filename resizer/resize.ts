@@ -1,11 +1,17 @@
 import * as sharp from 'sharp';
 
 type Data = Buffer | any; // 型合わせ
-type Resize = (width: number, height: number, webp?: boolean)
+type Resize = (query: Query)
     => (data: Data)
     => Promise<Buffer>;
 
-export const resize: Resize = (width, height, webp) => async data => {
+export interface Query {
+    width?: number,
+    height?: number,
+    webp?: boolean
+}
+
+export const resize: Resize = ({width, height, webp}) => async data => {
     const image = sharp(data);
     const metadata = await image.metadata();
 

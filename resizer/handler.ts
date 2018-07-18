@@ -11,13 +11,7 @@ import {
 import * as querystring from "querystring";
 import { isArray } from "util";
 
-import { resize } from "./resize";
-
-interface Query {
-    width: number, // w
-    height: number, // h
-    webp?: boolean
-}
+import { Query, resize } from "./resize";
 
 // 型合わせ
 const resultResponse = (response: CloudFrontResponse): CloudFrontResultResponse =>
@@ -32,6 +26,12 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
     // guard: check extension
     const ext = uri.split('.').pop();
     if (!ext.match(/jpe?g/)) {
+        // response original
+        cb(null, response);
+        return;
+    }
+    // guard: check resize
+    if (!request.querystring) {
         // response original
         cb(null, response);
         return;
@@ -73,7 +73,7 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
         Key: key, // remove first `/`
     }).promise()
         .then(data => data.Body)
-        .then(buffer => resize(width, height, webp)(buffer))
+        .then(buffer => resize({width, height, webp})(buffer))
         .then(buffer => {
             // response resized image
             const encoding = 'base64';
@@ -94,13 +94,10 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
 const parseQuery = (str: string): Query => {
     const value = (str?: string | string[]): string =>
         isArray(str) ? str[0] : str;
-    const guard = (n?: number): number => {
-        if (!(isFinite(n) && (n > 0))) {
-            throw Error('not a positive number')
-        }
-        return n;
-    };
-    const parseNum = str => guard(parseInt(value(str)));
+    const guard = (n?: number): number | null =>
+        isFinite(n) && (n > 0) ? n : null;
+    const parseNum = str =>
+        guard(parseInt(value(str)));
 
     const query = querystring.parse(str);
 
