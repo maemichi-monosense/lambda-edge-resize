@@ -15,6 +15,9 @@ custom:
   stage: "${opt:stage, self:provider.stage}"
   webpack:
     packager: yarn
+    includeModules:
+      forceInclude:
+        - sharp # for native Node.js Add-on
 
 functions:
   OriginResponse:
