@@ -10,6 +10,7 @@ plugins:
 provider:
   name: aws
   region: us-east-1 # Lambda@Edge restriction
+  profile: yuya
   runtime: nodejs8.10
   role: LambdaEdgeRole
   logRetentionInDays: 14
