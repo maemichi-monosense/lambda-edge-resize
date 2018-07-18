@@ -5,6 +5,7 @@ service:
 plugins:
   - serverless-webpack
   - serverless-stack-output
+  - serverless-prune-plugin
 
 provider:
   name: aws
@@ -23,6 +24,9 @@ custom:
   output:
     handler: scripts/output.handler
     file: ../lambda.json
+  prune:
+    automatic: true
+    number: 3
 
 functions:
   OriginResponse:
