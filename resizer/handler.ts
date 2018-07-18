@@ -62,12 +62,14 @@ export const originResponse: Handler = (event: CloudFrontResponseEvent, context:
      * @see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-event-structure.html#lambda-event-structure-request
      */
     const hostname = request.headers.host[0].value;
-    console.log({hostname, uri, headers: request.headers});
+    const bucket = hostname.replace('.s3.amazonaws.com', '');
+    const key = uri.slice(1);
+    console.log({s3uri: `s3://${bucket}${uri}`});
 
     const s3 = new S3();
     s3.getObject({
-        Bucket: hostname,
-        Key: uri.slice(1), // remove first `/`
+        Bucket: bucket,
+        Key: key, // remove first `/`
     }).promise()
         .then(data => data.Body)
         .then(buffer => resize(width, height, webp)(buffer))
