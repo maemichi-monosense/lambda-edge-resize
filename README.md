@@ -2,6 +2,20 @@
 Resize jpeg image in CloudFront by Lambda@Edge
 
 ## How to Deploy
+
+```shell
+npx saku deploy
+```
+
+or
+
+```shell
+cd resizer
+yarn deploy
+```
+
+or
+
 ```shell
 touch lambda.json
 cd resizer
@@ -12,12 +26,6 @@ cd ..
 cd infra
 terraform plan -out=.terraform/plan -var-file=../lambda.json
 terraform apply .terraform/plan
-```
-
-or
-```shell
-cd resizer
-yarn deploy
 ```
 
 ## Dependency
